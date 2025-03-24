@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit JSON - Web App</title>
+    <style>
+        /* Tema Gelap */
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 24px;
+        }
+
+        /* Container */
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+        }
+
+        /* Input & tombol lebih besar */
+        input, button {
+            width: 100%;
+            padding: 18px;
+            font-size: 20px;
+            border: none;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        input {
+            background: #1e1e1e;
+            color: #ffffff;
+        }
+
+        button {
+            background-color: #ffcc00;
+            color: #000;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #ffaa00;
+        }
+
+        /* Status */
+        #status {
+            margin-top: 15px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Edit JSON - Web App</h1>
+    
+    <p>Masukkan URL & Nama lalu simpan:</p>
+    
+    <div class="form-container">
+        <input type="text" id="url" placeholder="Masukkan URL" />
+        <input type="text" id="nama" placeholder="Masukkan Nama" />
+        <button onclick="simpanData()">Simpan</button>
+    </div>
+
+    <p id="status"></p>
+
+    <script>
+        function simpanData() {
+            var url = document.getElementById("url").value;
+            var nama = document.getElementById("nama").value;
+
+            if (url === "" || nama === "") {
+                document.getElementById("status").innerText = "Harap isi semua kolom!";
+                return;
+            }
+
+            // Kirim data ke Google Apps Script
+            fetch("https://script.google.com/macros/s/YOUR_DEPLOYED_URL/exec", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ link: url, nama_fp: nama })
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("status").innerText = data;
+            })
+            .catch(error => {
+                document.getElementById("status").innerText = "Gagal menyimpan data.";
+            });
+        }
+    </script>
+
+</body>
+</html>
