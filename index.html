@@ -3,105 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remot Sarjana</title>
-    <style>
-        /* Tema Gelap */
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        h1 {
-            color: #ffffff;
-            font-size: 24px;
-        }
-
-        /* Container */
-        .form-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 500px;
-            margin: auto;
-        }
-
-        /* Input & tombol lebih besar */
-        input, button {
-            width: 100%;
-            padding: 18px;
-            font-size: 20px;
-            border: none;
-            border-radius: 8px;
-            margin: 10px 0;
-        }
-
-        input {
-            background: #1e1e1e;
-            color: #ffffff;
-        }
-
-        button {
-            background-color: #ffcc00;
-            color: #000;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        button:hover {
-            background-color: #ffaa00;
-        }
-
-        /* Status */
-        #status {
-            margin-top: 15px;
-            font-size: 18px;
-        }
-    </style>
+    <title>Upload ke Dropbox</title>
 </head>
 <body>
-
-    <h1>Remot Sarjana</h1>
-    
-    <p>Masukkan Link dan Nama FP lalu Kirim:</p>
-    
-    <div class="form-container">
-        <input type="text" id="url" placeholder="Masukkan Link" />
-        <input type="text" id="nama" placeholder="Masukkan Nama FP" />
-        <button onclick="simpanData()">Kirim</button>
-    </div>
-
+    <h2>Upload File ke Dropbox</h2>
+    <input type="file" id="fileInput">
+    <button onclick="uploadFile()">Upload</button>
     <p id="status"></p>
 
     <script>
-        function simpanData() {
-            var url = document.getElementById("url").value;
-            var nama = document.getElementById("nama").value;
-
-            if (url === "" || nama === "") {
-                document.getElementById("status").innerText = "Harap isi semua kolom!";
+        async function uploadFile() {
+            const fileInput = document.getElementById("fileInput");
+            if (fileInput.files.length === 0) {
+                alert("Pilih file terlebih dahulu!");
                 return;
             }
 
-            // Kirim data ke Google Apps Script
-            fetch("https://script.google.com/macros/s/AKfycbzHCVbZ-BKjfZJakkly6IRp868lDuic1QEvdDtmkp0/exec", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ link: url, nama_fp: nama })
-            })
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("status").innerText = data;
-            })
-            .catch(error => {
-                document.getElementById("status").innerText = "Gagal menyimpan data.";
-            });
+            const file = fileInput.files[0];
+            const accessToken = "sl.u.AFlCwDRfIiHEbCBRoL-nP_jDQ38I6-mG95zbS7o59g6p21sVc62QA6g5vi11PHWBKcrGfEG7g4fVJglW2peRZgna-iNkPHPmdETTnESyhiydYoa_wTW5nr8RAqIH2Bg_pGAYIg3jKwt-76TO0nHmGh4eRjlqaaLJ0KSPgn3uBDPAJaFvrAg_rYpS4kD6yZpzYrhdaD1w_o-zbSIx3u9mhaw9G9aGxCu5bZuZA1T3sB_zb58bJ_x-yXTNKPf9P5hyY0IQOLxAE52hGOzFnjM_TdjAUE_Mr7NZlf148TvJz1XnaBQYaYhZ3FaCYf6sdVlpKkFtdmnij9yz9a4RZULNCie-pJ5tne6KeD5USwH5ajf8-bF2TnaTvcJDR54OA_eh4RfCq4anYosPtEz41LxmOb2j-SFEE33mjEikKcDLksyUAR18Az-0xW14qCmg-7vgNEmLykTquDTrLYPExX1KhGjQVCnMlPPK0k4Wo2zSsCsC3JluCs2hm6M7qXrg1boUzhEzzVjCNeeWt8ENjoixNAqAK4axaFTCvSAIJkQJ8-TbK49AVmU-WmSGi281jlspQyu159RaXVxXHGMbPt968V5t-VhzNYWcb5mOOsRd-gkyS6X7oe_KqSWQa1j_GJsXZeTtW2Ow33sJCYztk2vSMIXUTxEuLE8MkJEw-bqO8AUEhn-_fbe1yZ0PmhIXtqs48Ma41dddvw4qI2LWYaHPejXJKDUb5N7kJ1k5OxDy-RY0fgIAFktCTZGsp8E__nXlzs8AcVgkhNb7xhl6W6nD69bj1luE_xlcGUq-8ms7zovZAnPZZrjKbfbmKFzMu3eKOMyLOVZL1uMoUzI2pcxNBE9FyqcKSkCh6mxxt5mhdUMobLScNC1gzWGdqclDbbDTpOlnSRHYkhs6exxSFinIyVl-TWrWg6qitfaat2vuUstBowx28rw0Hr8fvUSrOM5gaYAmeKwwx6GR1KwQqL1_k6Z6p8YKfcgD_dzHzS4d_4dbdXAGYCMJKTjHlOSopdIjta9ZEWy29tgRIbW2UgZHPPQvv31KrUQNTIaC4jUWryjnVDV_SwQy0s_F4-YKlLelkZoaaguCKcIMk89yYfNHeaUcL-wsosS-VBvbo8XpNswf2nIbL6pyW_WO4QuJZPY548xj4Ez1CaHYi9dYaoHju6XefKCrjQLb6fvhOQVqsV1fBroez9uUenCYS2EFYccUopVJwOhI36z9-6C_32qCVgcuLBCg5vBbUEHSLw2HXqs1gmxyyYEC82wyePUFrUk2rtgqp6PCmKNo4gzrDmv4Sn9s3JMMfvEfx8uh-LmEE16CtiiLJSRVHGOsNrxnZFzISFygV01jdf79KHmLwfoDD-gJqy0nOuBaQezLmR9LsoKHpKJXXKn_mHfLnYcq-Libeay832kJKGTlqm9r-vml_yE1nUsWY0SGTmZeZP6OisW9YA"; // Ganti dengan token Dropbox Anda
+            const dropboxPath = "/remot_SE.json"; // Path tujuan di Dropbox
+
+            document.getElementById("status").innerText = "Mengupload...";
+
+            try {
+                const response = await fetch("https://content.dropboxapi.com/2/files/upload", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${accessToken}`,
+                        "Content-Type": "application/octet-stream",
+                        "Dropbox-API-Arg": JSON.stringify({
+                            path: dropboxPath,
+                            mode: "overwrite",
+                            mute: false
+                        })
+                    },
+                    body: file
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    document.getElementById("status").innerText = "Upload berhasil!";
+                } else {
+                    document.getElementById("status").innerText = "Gagal: " + result.error_summary;
+                }
+            } catch (error) {
+                console.error(error);
+                document.getElementById("status").innerText = "Terjadi kesalahan.";
+            }
         }
     </script>
-
 </body>
 </html>
