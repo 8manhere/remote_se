@@ -1,1 +1,1 @@
-# remote_se
+# remot untuk simpan teks
