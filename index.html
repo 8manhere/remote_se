@@ -1,124 +1,41 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remote SE</title>
-    <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-        }
-        input, button {
-            background-color: #1e1e1e;
-            color: #ffffff;
-            border: 1px solid #333;
-            padding: 10px;
-            margin: 5px;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        button {
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #333;
-        }
-        .container {
-            display: inline-block;
-            text-align: left;
-        }
-        #listkonten {
-            list-style-type: none;
-            padding: 0;
-            margin-top: 20px;
-            text-align: left;
-        }
-        #listkonten li {
-            padding: 5px 0;
-            font-size: 16px;
-        }
-        #listkonten li a {
-            color: white;
-            text-decoration: none;
-        }
-    </style>
+  <title>Buka Reels di Instagram</title>
+  <meta charset="UTF-8" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      width: 80%;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h3>Remote Sarjana</h3>
-        <br>
-        <input type="text" id="link" placeholder="Masukkan link" style="width: 100%;"><br><br>
-        <input type="text" id="nama_fp" placeholder="Masukkan nama FP" style="width: 100%;"><br><br>
-        <button onclick="simpanData()">Kirim</button>
-        <p id="status"></p>
-        <h2>Daftar Link</h2>
-        <ul id="listkonten"></ul>
-    </div>
-    <script>
-        async function simpanData() {
-            var link = document.getElementById("link").value;
-            var nama_fp = document.getElementById("nama_fp").value;
+  <h2>Masukkan Link Reels Instagram</h2>
+  <input type="text" id="linkInput" placeholder="Contoh: https://www.instagram.com/reel/C9xTz8jJKl5/" />
+  <br>
+  <button onclick="bukaIG()">Buka di Aplikasi Instagram</button>
 
-            if (link === "" || nama_fp === "") {
-                document.getElementById("status").innerText = "Harap isi semua data!";
-                return;
-            }
+  <script>
+    function bukaIG() {
+      let url = document.getElementById("linkInput").value.trim();
+      if (!url.startsWith("https://www.instagram.com/reel/")) {
+        alert("Masukkan link Reels Instagram yang valid!");
+        return;
+      }
 
-            var jsonData = {
-                link: link,
-                nama_fp: nama_fp
-            };
-
-            document.getElementById("status").innerText = "Mengirim ke server...";
-
-            try {
-                const response = await fetch("https://content.dropboxapi.com/2/files/upload", {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer sl.u.AFnU_mTZHa0pSom5vi0oBtuNgjSEjSXWX_mKHd_jSP9qq6UXmz7QWwMv8_zEGwze9OLMKAsTv1XAoNjPN2sQii9S3sfjqpqObCOec-u8g_sGiXZTnd6w3MdY_vCeU30GzzTdQVsNVg1RS9QEUu_qIue4wYcoY1iOcbpr0LSd2GDSljy_Ute5XRLC6bVp6rizeZkfFkfuB01hosmPa8cNwyq_zXwzL7FGS3BIEZfQoU1Coku60flZI7zpLFZwKqYX2ajB4WoahsyzufflgbtfRN3yx_TYXV3sDt13_DVwqmb68pIMrc_rS4XNyxeJe4lOfFLlPaZe1VvYrybWX3CUduxiElgwpC3oKmPxCqa1MGtRr2m46UGp_ROynptV3VD1-2UeffEf2I5lmDlFGTUpO5roDVLEAaBnQ1B5_hN9kToKlxffAzXzewO0-eLKCT0-R3Dt2V9gXcAJvARKQH9JPSlLr2CW9k_zhpbjIQuO-Iqa9UH5CuFYeXGTfBZxNC210Yx2ytLTuIqb8RCJuRlWjai-G5sGS0HvD9Pn791AhagRwdol5NyY_A9T78g56zKv9VQxQMoEc34lQ5Vp6jCBi0gtiYQOhsk1ACCi8ahhlROUwfSCticqchSX5DQ0bbCH0FRfwZfuhSVqRjk4N7RExssu7o1SKnRs75Y74rwJv7JxxUEvPzlLQh_yev1blqKrwHGTepJL1u8Cy68ueLNuw5t2CUrmwdLQfSygn4eO6UOI74goi97pcAJmIl2MkRs2QszqoVuqtDSWSvaR4lRIqPJuBDCmMYTIVBCyEGbSKTMmYocLZUULi5d8gFVZpHvSCzdEe3Qm68NoPFUdXQlr0D1VyC_tdUe_li_YWqzQnTgVK4cty1peuWFavLPklMoD1BF8eHkHduQVjN2h-rssZkSotnvaYb___h0PI8LboYo9_9eVVZVLV3sKyMpoDrTe_-ruwV4MxJVtl8ZtpYnR0KrSfwo4au5ZX5AAwKGHVlyCjpA_g7nJkTa6i9XWInMruHVuPXMuk3QaNjOXh3gp6w554MhjVVdLAHs30OyE_HblnrrOfH3ThiMH6VLNdGX4dPDb-lNM9aQF5YvXkQh-YFwQcClVkM1rEmcJ4SQf3VujJ94_STgpwJhMm6Boro9Oa2fvguz0hWUy4E-wuaGYXn-K4-knTvJSSHa0mi01XDEgja8v85HcpOEGR9K4BpGFZmFH3lOJhTn7dBWZXQsbx3srL54t6SSc5SdjsCordWzhXia2yMOYU9sl-ZnY67vLGKvWJIkb4Qv18TuTXGWhVg4gs5c75_xOUIuxX-99hGg5SDR85MeMBvXw5ipD-nPlQcepI-fMtTmkjOy-toJ6GWE-WSC5bO_O1fvZwYvbx1Yc75IrWfWHucxFdkVx6o04bg43ou_V8c8eJWT6jVYV2HuUj1cTxlhJuczjcfieYqH3mw`,
-                        "Content-Type": "application/octet-stream",
-                        "Dropbox-API-Arg": JSON.stringify({
-                            path: "/remot_SE.json",
-                            mode: "overwrite",
-                            mute: false
-                        })
-                    },
-                    body: JSON.stringify(jsonData)
-                });
-
-                const result = await response.json();
-                if (response.ok) {
-                    document.getElementById("status").innerText = "Berhasil dikirim!";
-                } else {
-                    document.getElementById("status").innerText = "Gagal: " + result.error_summary;
-                }
-            } catch (error) {
-                console.error(error);
-                document.getElementById("status").innerText = "Terjadi kesalahan.";
-            }
-        }
-
-        fetch("https://content.dropboxapi.com/2/files/download", {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer sl.u.AFnU_mTZHa0pSom5vi0oBtuNgjSEjSXWX_mKHd_jSP9qq6UXmz7QWwMv8_zEGwze9OLMKAsTv1XAoNjPN2sQii9S3sfjqpqObCOec-u8g_sGiXZTnd6w3MdY_vCeU30GzzTdQVsNVg1RS9QEUu_qIue4wYcoY1iOcbpr0LSd2GDSljy_Ute5XRLC6bVp6rizeZkfFkfuB01hosmPa8cNwyq_zXwzL7FGS3BIEZfQoU1Coku60flZI7zpLFZwKqYX2ajB4WoahsyzufflgbtfRN3yx_TYXV3sDt13_DVwqmb68pIMrc_rS4XNyxeJe4lOfFLlPaZe1VvYrybWX3CUduxiElgwpC3oKmPxCqa1MGtRr2m46UGp_ROynptV3VD1-2UeffEf2I5lmDlFGTUpO5roDVLEAaBnQ1B5_hN9kToKlxffAzXzewO0-eLKCT0-R3Dt2V9gXcAJvARKQH9JPSlLr2CW9k_zhpbjIQuO-Iqa9UH5CuFYeXGTfBZxNC210Yx2ytLTuIqb8RCJuRlWjai-G5sGS0HvD9Pn791AhagRwdol5NyY_A9T78g56zKv9VQxQMoEc34lQ5Vp6jCBi0gtiYQOhsk1ACCi8ahhlROUwfSCticqchSX5DQ0bbCH0FRfwZfuhSVqRjk4N7RExssu7o1SKnRs75Y74rwJv7JxxUEvPzlLQh_yev1blqKrwHGTepJL1u8Cy68ueLNuw5t2CUrmwdLQfSygn4eO6UOI74goi97pcAJmIl2MkRs2QszqoVuqtDSWSvaR4lRIqPJuBDCmMYTIVBCyEGbSKTMmYocLZUULi5d8gFVZpHvSCzdEe3Qm68NoPFUdXQlr0D1VyC_tdUe_li_YWqzQnTgVK4cty1peuWFavLPklMoD1BF8eHkHduQVjN2h-rssZkSotnvaYb___h0PI8LboYo9_9eVVZVLV3sKyMpoDrTe_-ruwV4MxJVtl8ZtpYnR0KrSfwo4au5ZX5AAwKGHVlyCjpA_g7nJkTa6i9XWInMruHVuPXMuk3QaNjOXh3gp6w554MhjVVdLAHs30OyE_HblnrrOfH3ThiMH6VLNdGX4dPDb-lNM9aQF5YvXkQh-YFwQcClVkM1rEmcJ4SQf3VujJ94_STgpwJhMm6Boro9Oa2fvguz0hWUy4E-wuaGYXn-K4-knTvJSSHa0mi01XDEgja8v85HcpOEGR9K4BpGFZmFH3lOJhTn7dBWZXQsbx3srL54t6SSc5SdjsCordWzhXia2yMOYU9sl-ZnY67vLGKvWJIkb4Qv18TuTXGWhVg4gs5c75_xOUIuxX-99hGg5SDR85MeMBvXw5ipD-nPlQcepI-fMtTmkjOy-toJ6GWE-WSC5bO_O1fvZwYvbx1Yc75IrWfWHucxFdkVx6o04bg43ou_V8c8eJWT6jVYV2HuUj1cTxlhJuczjcfieYqH3mw`,
-                "Dropbox-API-Arg": JSON.stringify({ "path": "/listkontenSE.json" })
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            const list = document.getElementById("listkonten");
-            data.forEach(item => {
-                const li = document.createElement("li");
-                li.innerHTML = `<a href="${item.url}" target="_blank">${item.description}</a>`;
-                list.appendChild(li);
-            });
-        })
-        .catch(error => console.error("Error mengambil JSON:", error));
-    </script>
+      // Hapus bagian https:// dan trailing slash
+      let path = url.replace("https://", "").replace(/\/+$/, "");
+      let intentURL = `intent://${path}/#Intent;package=com.instagram.android;scheme=https;end;`;
+      window.location.href = intentURL;
+    }
+  </script>
 </body>
 </html>
